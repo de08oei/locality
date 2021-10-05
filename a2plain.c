@@ -19,6 +19,7 @@ static A2Methods_UArray2 new(int width, int height, int size)
 static A2Methods_UArray2 new_with_blocksize(int width, int height, int size, int blocksize)
 {
   //TODO: Implement this function and remove the dummy return statement.
+  
   (void) blocksize;
   return NULL;
 }

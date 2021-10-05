@@ -8,6 +8,9 @@
 #include "a2blocked.h"
 #include "pnm.h"
 
+/* Function Declarations */
+void readCommands(int argc, char *argv[], int rotation);
+
 #define SET_METHODS(METHODS, MAP, WHAT) do {                    \
         methods = (METHODS);                                    \
         assert(methods != NULL);                                \
@@ -29,11 +32,16 @@ usage(const char *progname)
         exit(1);
 }
 
+
+void readCommands(int argc, char *argv[], int rotation, char time_file_name);
+void printImage()
+
 int main(int argc, char *argv[]) 
 {
         char *time_file_name = NULL;
         int   rotation       = 0;
-        int   i;
+        // int   i;
+        // (void) i;
 
         /* default to UArray2 methods */
         A2Methods_T methods = uarray2_methods_plain; 
@@ -43,16 +51,24 @@ int main(int argc, char *argv[])
         A2Methods_mapfun *map = methods->map_default; 
         assert(map);
 
-        for (i = 1; i < argc; i++) {
+        readCommands(argc, argv, rotation, time_file_name);
+
+        assert(0);              // the rest of this function is not yet implemented
+}
+
+
+void readCommands(int argc, char *argv[], int rotation, char time_file_name)
+{
+        for (int i = 1; i < argc; i++) {
                 if (strcmp(argv[i], "-row-major") == 0) {
                         SET_METHODS(uarray2_methods_plain, map_row_major, 
-                                    "row-major");
+                                        "row-major");
                 } else if (strcmp(argv[i], "-col-major") == 0) {
                         SET_METHODS(uarray2_methods_plain, map_col_major, 
-                                    "column-major");
+                                        "column-major");
                 } else if (strcmp(argv[i], "-block-major") == 0) {
                         SET_METHODS(uarray2_methods_blocked, map_block_major,
-                                    "block-major");
+                                        "block-major");
                 } else if (strcmp(argv[i], "-rotate") == 0) {
                         if (!(i + 1 < argc)) {      /* no rotate value */
                                 usage(argv[0]);
@@ -60,7 +76,7 @@ int main(int argc, char *argv[])
                         char *endptr;
                         rotation = strtol(argv[++i], &endptr, 10);
                         if (!(rotation == 0 || rotation == 90 ||
-                            rotation == 180 || rotation == 270)) {
+                                rotation == 180 || rotation == 270)) {
                                 fprintf(stderr, 
                                         "Rotation must be 0, 90 180 or 270\n");
                                 usage(argv[0]);
@@ -68,6 +84,7 @@ int main(int argc, char *argv[])
                         if (!(*endptr == '\0')) {    /* Not a number */
                                 usage(argv[0]);
                         }
+                        //TODO call rotation functions
                 } else if (strcmp(argv[i], "-time") == 0) {
                         time_file_name = argv[++i];
                 } else if (*argv[i] == '-') {
@@ -81,6 +98,4 @@ int main(int argc, char *argv[])
                         break;
                 }
         }
-
-        assert(0);              // the rest of this function is not yet implemented
 }
