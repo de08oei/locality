@@ -32,5 +32,5 @@
 #include "cputiming.h"
 
 struct CPU_Time {
-        struct timespec time;
+    struct timespec time;
 };

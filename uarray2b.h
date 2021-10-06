@@ -32,9 +32,7 @@ extern void *UArray2b_at(T array2b, int column, int row);
 
 /* visits every cell in one block before moving to another block */
 extern void UArray2b_map(T array2b,
-void apply(int col, int row, T array2b,
-void *elem, void *cl),
-void *cl);
+void apply(int col, int row, T array2b, void *elem, void *cl), void *cl);
 
 
 /*
